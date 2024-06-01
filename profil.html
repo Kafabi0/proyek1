@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Akun</title>
+    <link rel="stylesheet" href="assets/css/profil.css">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="h1">
+            <h1>Profil Akun</h1>
+        </div>
+        <div class="img">
+            <img src="assets/img/cha.jpg" alt="Profile Picture" class="profile-picture">
+        </div>
+        <form class="profile-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="name">Nama</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="phone">Nomor Telepon</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+            </div>
+                <div class="radio-group">
+                    <input type="radio" id="laki-laki" name="jenis_kelamin" value="Laki-laki">
+                    <label for="laki-laki">Laki-laki</label>
+                
+                    <input type="radio" id="perempuan" name="jenis_kelamin" value="Perempuan">
+                    <label for="perempuan">Perempuan</label>
+                
+                    <input type="radio" id="lainnya" name="jenis_kelamin" value="Lainnya">
+                    <label for="lainnya">Lainnya</label>
+                </div>
+            <div class="form-group">
+                <label for="profile-picture">Upload Profile Picture</label>
+                <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+                <small>Max file size: 1MB, formats: JPEG, PNG</small>
+                <div>
+                    <button type="submit">Save Changes</button>
+                    <button type="button">Cancel</button>
+                </div>
+            </div>
+                
+        </form>
+    </div>
+</body>
+</html>

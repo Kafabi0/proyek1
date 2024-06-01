@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Penjualan</title>
+    <link rel="stylesheet" href="assets/css/rek_bulanan.css">
+</head>
+<body>
+    <div class="container">
+        <div class="input-section">
+            <h2>Input Data Penjualan</h2>
+            <form id="sales-form">
+                <div class="form-group">
+                    <label for="order-number">Nomor Order:</label>
+                    <input type="text" id="order-number" required>
+                </div>
+                <div class="form-group">
+                    <label for="order-date">Tanggal:</label>
+                    <input type="date" id="order-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username Pembeli:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-type">Jenis Produk:</label>
+                    <input type="text" id="product-type" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-code">Kode Barang:</label>
+                    <input type="text" id="product-code" required>
+                </div>
+                <div class="form-group">
+                    <label for="payment-method">Cara Bayar:</label>
+                    <input type="text" id="payment-method" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Jumlah Pembelian:</label>
+                    <input type="number" id="quantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Harga:</label>
+                    <input type="number" id="price" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Tambahkan Order</button>
+                </div>
+            </form>
+        </div>
+        <div class="output-section">
+            <h2>Hasil Laporan Penjualan</h2>
+            <table id="sales-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>Username Pembeli</th>
+                        <th>Jenis Barang</th>
+                        <th>Kode Barang</th>
+                        <th>Cara Bayar</th>
+                        <th>Jumlah Pembelian</th>
+                        <th>Harga</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="sales-table-body">
+                    <!-- Sales data will be dynamically added here -->
+                </tbody>
+            </table>
+            <div class="download-section">
+                <button onclick="downloadSalesSummary()">Download Laporan Penjualan</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const salesForm = document.getElementById('sales-form');
+        const salesTableBody = document.getElementById('sales-table-body');
+        const salesData = [];
+        salesForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const orderNumber = document.getElementById('order-number').value;
+            const orderDate = document.getElementById('order-date').value;
+            const username = document.getElementById('username').value;
+            const productCode = document.getElementById('product-type').value;
+            const productCode = document.getElementById('product-code').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const price = parseFloat(document.getElementById('price').value);
+            const total = quantity * price;
+
+            // Store order data
+            salesData.push({ orderNumber, orderDate, username, productType, productCode, paymentMethod, quantity, price, total });
+
+            // Update the sales table
+            updateSalesTable();
+        });
+        function updateSalesTable() {
+            let salesTableHTML = '';
+
+            // Loop through salesData and generate HTML for each transaction row
+            salesData.forEach((transaction, index) => {
+                salesTableHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${transaction.orderDate}</td>
+                        <td>${transaction.username}</td>
+                        <td>${transaction.productType}</td>
+                        <td>${transaction.productCode}</td>
+                        <td>${transaction.paymentMethod}</td>
+                        <td>${transaction.quantity}</td>
+                        <td>${transaction.price}</td>
+                        <td>${transaction.total}</td>
+                    </tr>
+                `;
+            });
+            // Set the HTML content of sales table body
+            salesTableBody.innerHTML = salesTableHTML;
+        }
+      function downloadSalesSummary() {
+            // Create a JSON object from salesData
+            const jsonData = JSON.stringify(salesData);
+            
+            // Create a Blob object from the JSON data
+            const blob = new Blob([jsonData], { type: 'application/json' });
+
+            // Create a download link
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = 'sales_summary.json';
+
+            // Click the download link programmatically
+            downloadLink.click();
+        }
+        function updateSalesTable() {
+            let salesTableHTML = '';
+        
+            // Loop through salesData and generate HTML for each transaction row
+            salesData.forEach((transaction, index) => {
+                // Format harga dan total menjadi mata uang rupiah
+                const formattedPrice = formatToRupiah(transaction.price);
+                const formattedTotal = formatToRupiah(transaction.total);
+        
+                salesTableHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${transaction.orderDate}</td>
+                        <td>${transaction.username}</td>
+                        <td>${transaction.productType}</td>
+                        <td>${transaction.productCode}</td>
+                        <td>${transaction.paymentMethod}</td>
+                        <td>${transaction.quantity}</td>
+                        <td>${formattedPrice}</td>
+                        <td>${formattedTotal}</td>
+                    </tr>
+                `;
+            });
+            // Set the HTML content of sales table body
+            salesTableBody.innerHTML = salesTableHTML;
+        }
+        // Fungsi untuk memformat nilai menjadi mata uang rupiah
+        function formatToRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(amount);
+        }
+    </script>
+</body>
+</html>
